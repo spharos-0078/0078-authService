@@ -5,13 +5,13 @@ spring:
   application:
     name: auth-service
 
-  data:
-    mongodb:
-      uri: mongodb+srv://...
-      auto-index-creation: true
+#  data:
+#    mongodb:
+#      uri: mongodb+srv://...
+#      auto-index-creation: true
 
   DataSource:
-    url: jdbc:mysql://localhost:3306/auth_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/piece_of_cake
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -34,6 +34,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 JWT:
-  secret-key: ...
+  secret-key: e70a7f3ba3456c05be96f2b804fea1b41688111d051a43e28e9c25d2e430b4b8
   token:
     access-expire-time: 3600
