@@ -31,6 +31,14 @@ spring:
     username: redis123
     password: 1234
 
+  coolsms:
+    api-key: ${COOLSMS_API_KEY}
+    api-secret: ${COOLSMS_API_SECRET}
+    sender: ${COOLSMS_SENDER}
+
+  config:
+    import: optional:file:.env[.properties]
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
@@ -45,3 +53,4 @@ JWT:
   secret-key: e70a7f3ba3456c05be96f2b804fea1b41688111d051a43e28e9c25d2e430b4b8
   token:
     access-expire-time: 3600
+
