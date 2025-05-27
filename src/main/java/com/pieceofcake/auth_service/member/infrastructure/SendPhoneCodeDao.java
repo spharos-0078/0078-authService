@@ -10,7 +10,7 @@ import java.time.Duration;
 @Repository
 public class SendPhoneCodeDao {
     private final String PREFIX = "sms:";
-    private final int LIMIT_TIME = 3 * 60;
+    private final int LIMIT_TIME = 60 * 60;      // redis에 저장하는 시간 3분으로 설정
 
     private final StringRedisTemplate redisTemplate;
 
