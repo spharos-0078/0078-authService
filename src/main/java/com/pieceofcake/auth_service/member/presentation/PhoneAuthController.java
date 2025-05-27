@@ -13,20 +13,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/phone")
 @RequiredArgsConstructor
 public class PhoneAuthController {
 
     private final PhoneService phoneService;
 
-    @PostMapping("/phone/send-code")
+    @PostMapping("/send-code")
     public ResponseEntity<Void> sendPhoneCode(@RequestBody SendPhoneCodeRequestVo sendPhoneCodeRequestVo
     ) {
         phoneService.sendPhoneCode(SendPhoneCodeRequestDto.from(sendPhoneCodeRequestVo));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/phone/verify")
+    @PostMapping("/verify")
     public ResponseEntity<Void> verifyPhoneCode(
             @RequestBody VerifyPhoneCodeRequestVo verifyPhoneCodeRequestVo
     ) {
