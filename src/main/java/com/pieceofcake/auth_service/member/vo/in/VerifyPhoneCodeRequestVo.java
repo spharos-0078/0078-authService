@@ -6,5 +6,6 @@ import lombok.Getter;
 public class VerifyPhoneCodeRequestVo {
 
     private String phoneNumber;
+    private String purpose;
     private String verificationCode;
 }

@@ -19,26 +19,30 @@ public class PhoneServiceImpl implements PhoneService{
     @Override
     public void sendPhoneCode(SendPhoneCodeRequestDto sendPhoneCodeRequestDto) {
         String phoneNumber = sendPhoneCodeRequestDto.getPhoneNumber();
+        String purpose = sendPhoneCodeRequestDto.getPurpose().name();
         int randomNumber = (int) (Math.random() * 900000) + 100000; // 6자리 랜덤 숫자 생성
         String certificationNumber = String.valueOf(randomNumber);
         sendPhoneCodeUtil.sendSms(phoneNumber, certificationNumber);
-        sendPhoneCodeDao.createSmsCertification(phoneNumber, certificationNumber);
+        sendPhoneCodeDao.createSmsCertification(phoneNumber, certificationNumber, purpose);
     }
 
     @Override
     public void verifyPhoneCode(VerifyPhoneCodeRequestDto verifyPhoneCodeRequestDto) {
         String phoneNumber = verifyPhoneCodeRequestDto.getPhoneNumber();
+        String purpose = verifyPhoneCodeRequestDto.getPurpose().name();
         String verificationCode = verifyPhoneCodeRequestDto.getVerificationCode();
 
-        if (!sendPhoneCodeDao.hasKey(phoneNumber)) {
+        if (!sendPhoneCodeDao.hasKey(phoneNumber, purpose)) {
             throw new IllegalArgumentException("인증 코드가 존재하지 않습니다.");
         }
 
-        String redisStoredCode = sendPhoneCodeDao.getSmsCertification(phoneNumber);
+        String redisStoredCode = sendPhoneCodeDao.getSmsCertification(phoneNumber, purpose);
         if (!redisStoredCode.equals(verificationCode)) {
             throw new IllegalArgumentException("인증 코드가 일치하지 않습니다.");
         }
 
-        sendPhoneCodeDao.removeSmsCertification(phoneNumber);
+        sendPhoneCodeDao.createSmsVerifed(phoneNumber, purpose);
+
+        sendPhoneCodeDao.removeSmsCertification(phoneNumber, purpose);
     }
 }

@@ -14,20 +14,26 @@ public class SendPhoneCodeDao {
 
     private final StringRedisTemplate redisTemplate;
 
-    public void createSmsCertification(String phone, String certificationNumber) {
+    public void createSmsCertification(String phone, String certificationNumber, String purpose) {
         redisTemplate.opsForValue()
-                .set(PREFIX + phone, certificationNumber, Duration.ofSeconds(LIMIT_TIME));
+                .set(PREFIX + purpose + ":" + phone, certificationNumber, Duration.ofSeconds(LIMIT_TIME));
     }
 
-    public String getSmsCertification(String phone) {
-        return redisTemplate.opsForValue().get(PREFIX + phone);
+    public void createSmsVerifed(String phone, String purpose) {
+        redisTemplate.opsForValue()
+                .set(PREFIX + purpose + ":Verified:" + phone,
+                        "true", Duration.ofSeconds(LIMIT_TIME));
     }
 
-    public void removeSmsCertification(String phone) {
-        redisTemplate.delete(PREFIX + phone);
+    public String getSmsCertification(String phone, String purpose) {
+        return redisTemplate.opsForValue().get(PREFIX + purpose + ":" + phone);
     }
 
-    public boolean hasKey(String phone) {
-        return redisTemplate.hasKey(PREFIX + phone);
+    public void removeSmsCertification(String phone, String purpose) {
+        redisTemplate.delete(PREFIX + purpose + ":" + phone);
+    }
+
+    public boolean hasKey(String phone, String purpose) {
+        return redisTemplate.hasKey(PREFIX + purpose + ":" + phone);
     }
 }
