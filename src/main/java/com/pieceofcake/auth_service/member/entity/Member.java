@@ -1,9 +1,9 @@
-package com.pieceofcake.auth_service.member.domain;
+package com.pieceofcake.auth_service.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pieceofcake.auth_service.common.entity.BaseEntity;
-import com.pieceofcake.auth_service.member.domain.enums.MemberGender;
-import com.pieceofcake.auth_service.member.domain.enums.MemberStatus;
+import com.pieceofcake.auth_service.member.entity.enums.MemberGender;
+import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

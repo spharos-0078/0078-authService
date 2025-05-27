@@ -1,4 +1,4 @@
-package com.pieceofcake.auth_service.member.domain.enums;
+package com.pieceofcake.auth_service.member.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
