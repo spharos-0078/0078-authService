@@ -1,5 +1,7 @@
 package com.pieceofcake.auth_service.member.application;
 
+import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
+import com.pieceofcake.auth_service.common.exception.BaseException;
 import com.pieceofcake.auth_service.common.util.JwtUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
 import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
@@ -28,16 +30,16 @@ public class MemberServiceImpl implements MemberService{
     public void signUp(SignUpRequestDto signUpRequestDto) {
 
         if (memberRepository.existsByEmail(signUpRequestDto.getEmail())) {
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+            throw new BaseException(BaseResponseStatus.DUPLICATED_EMAIL);
         }
         if (memberRepository.existsByPhoneNumber(signUpRequestDto.getPhoneNumber())) {
-            throw new IllegalArgumentException("이미 존재하는 전화번호입니다.");
+            throw new BaseException(BaseResponseStatus.DUPLICATED_PHONE_NUMBER);
         }
         if (memberRepository.existsByNickname(signUpRequestDto.getNickname())) {
-            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+            throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
         }
         if (!"true".equals(redisUtil.get("sms:SIGN_UP:Verified:" + signUpRequestDto.getPhoneNumber()))) {
-            throw new IllegalArgumentException("인증 코드가 존재하지 않습니다.");
+            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
         }
 
         memberRepository.save(signUpRequestDto.toEntity(passwordEncoder));
@@ -51,13 +53,13 @@ public class MemberServiceImpl implements MemberService{
 
         // 비밀번호 검증. 차후 배포 단계에서 에러 메시지 자세한 내역은 숨길 것.
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new BaseException(BaseResponseStatus.FAILED_TO_LOGIN);
         } else if (member.getStatus() == MemberStatus.DISABLED) {
-            throw new IllegalArgumentException("비활성화된 회원입니다.");
+            throw new BaseException(BaseResponseStatus.DISABLED_MEMBER);
         } else if (member.getStatus() == MemberStatus.BLACKED) {
-            throw new IllegalArgumentException("블랙리스트에 등록된 회원입니다.");
+            throw new BaseException(BaseResponseStatus.BLACKED_MEMBER);
         } else if (member.getStatus() == MemberStatus.DELETED) {
-            throw new IllegalArgumentException("삭제된 회원입니다.");
+            throw new BaseException(BaseResponseStatus.DELETED_MEMBER);
         }
 
         return jwtUtil.createLoginToken(member.getMemberUuid());

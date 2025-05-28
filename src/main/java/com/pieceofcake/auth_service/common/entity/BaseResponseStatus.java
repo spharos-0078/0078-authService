@@ -13,6 +13,13 @@ public enum BaseResponseStatus {
      * 200: 요청 성공
      **/
     SUCCESS(HttpStatus.OK, true, 200, "요청에 성공하였습니다."),
+    SMS_CODE_SUCCESS(HttpStatus.OK, true, 201, "휴대폰 인증코드 발송에 성공하였습니다."),
+    SMS_CODE_VERIFICATION_SUCCESS(HttpStatus.OK, true, 202, "휴대폰 인증에 성공하였습니다."),
+    SIGN_UP_SUCCESS(HttpStatus.OK, true, 203, "회원가입에 성공하였습니다."),
+    SIGN_IN_SUCCESS(HttpStatus.OK, true, 204, "로그인에 성공하였습니다."),
+    LOGOUT_SUCCESS(HttpStatus.OK, true, 205, "로그아웃 되었습니다."),
+    SUCCESS_MATCH_PASSWORD(HttpStatus.OK, true, 206, "비밀번호가 확인되었습니다."),
+    SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
 
     /**
      * 400 : security 에러
@@ -33,18 +40,16 @@ public enum BaseResponseStatus {
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, false, 2001, "토큰이 유효하지 않습니다."),
 
     // Users
-    DUPLICATED_USER(HttpStatus.CONFLICT, false, 2101, "이미 가입된 멤버입니다."),
-    FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 2102, "아이디 또는 패스워드를 다시 확인하세요."),
-    DUPLICATED_SOCIAL_USER(HttpStatus.CONFLICT, false, 2103, "이미 소셜 연동된 계정입니다."),
-    DUPLICATED_SOCIAL_PROVIDER_USER(HttpStatus.CONFLICT, false, 2104, "계정에 동일한 플랫폼이 이미 연동되어있습니다"),
-    NO_EXIST_USER(HttpStatus.NOT_FOUND, false, 2105, "존재하지 않는 멤버 정보입니다."),
-    PASSWORD_SAME_FAILED(HttpStatus.BAD_REQUEST, false, 2106, "현재 사용중인 비밀번호 입니다."),
-    PASSWORD_CONTAIN_NUM_FAILED(HttpStatus.BAD_REQUEST, false, 2107, "휴대폰 번호를 포함한 비밀번호 입니다."),
-    PASSWORD_MATCH_FAILED(HttpStatus.BAD_REQUEST, false, 2108, "패스워드를 다시 확인해주세요."),
-    NO_SUPPORTED_PROVIDER(HttpStatus.BAD_REQUEST, false, 2109, "지원하지 않는 플랫폼입니다"),
-    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2010, "이미 사용중인 닉네임입니다."),
-    SAME_NICKNAME(HttpStatus.CONFLICT, false, 2011, "현재 사용중인 닉네임입니다."),
-    INVALID_EMAIL_ADDRESS(HttpStatus.BAD_REQUEST, false, 2012, "이메일을 다시 확인해주세요.");
+    DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2101, "이미 가입된 이메일입니다."),
+    DUPLICATED_PHONE_NUMBER(HttpStatus.CONFLICT, false, 2101, "이미 가입된 휴대폰 번호입니다."),
+    DUPLICATED_NICKNAME(HttpStatus.CONFLICT, false, 2102, "이미 가입된 닉네임입니다."),
+    SMS_VERIFICATION_NOT_COMPLETED(HttpStatus.UNAUTHORIZED, false, 2103, "휴대폰 인증이 완료되지 않았습니다."),
+    FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 2104, "아이디 또는 패스워드를 다시 확인하세요."),
+    SMS_CERTIFICATION_NOT_FOUND(HttpStatus.UNAUTHORIZED, false, 2105, "인증 코드가 존재하지 않습니다."),
+    SMS_VERIFICATION_FAILED(HttpStatus.UNAUTHORIZED, false, 2106, "인증 코드가 일치하지 않습니다."),
+    DISABLED_MEMBER(HttpStatus.FORBIDDEN, false, 2108, "비활성화된 계정입니다. 관리자에게 문의해주세요."),
+    BLACKED_MEMBER(HttpStatus.FORBIDDEN, false, 2109, "블랙리스트에 등록된 계정입니다. 관리자에게 문의해주세요."),
+    DELETED_MEMBER(HttpStatus.FORBIDDEN, false, 2110, "삭제된 계정입니다. 관리자에게 문의해주세요.");
 
 
     private final HttpStatusCode httpStatusCode;

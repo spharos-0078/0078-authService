@@ -1,5 +1,7 @@
 package com.pieceofcake.auth_service.member.application;
 
+import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
+import com.pieceofcake.auth_service.common.exception.BaseException;
 import com.pieceofcake.auth_service.common.util.SendPhoneCodeUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
 import com.pieceofcake.auth_service.member.dto.in.SendPhoneCodeRequestDto;
@@ -33,12 +35,12 @@ public class PhoneServiceImpl implements PhoneService{
         String verificationCode = verifyPhoneCodeRequestDto.getVerificationCode();
 
         if (!sendPhoneCodeDao.hasKey(phoneNumber, purpose)) {
-            throw new IllegalArgumentException("인증 코드가 존재하지 않습니다.");
+            throw new BaseException(BaseResponseStatus.SMS_CERTIFICATION_NOT_FOUND);
         }
 
         String redisStoredCode = sendPhoneCodeDao.getSmsCertification(phoneNumber, purpose);
         if (!redisStoredCode.equals(verificationCode)) {
-            throw new IllegalArgumentException("인증 코드가 일치하지 않습니다.");
+            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_FAILED);
         }
 
         sendPhoneCodeDao.createSmsVerifed(phoneNumber, purpose);
