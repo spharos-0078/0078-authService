@@ -12,7 +12,7 @@ public class CheckEmailRequestDto {
         this.email = email;
     }
 
-    public static CheckEmailRequestDto from(String email) {
+    public static CheckEmailRequestDto of(String email) {
         return CheckEmailRequestDto.builder()
                 .email(email)
                 .build();
