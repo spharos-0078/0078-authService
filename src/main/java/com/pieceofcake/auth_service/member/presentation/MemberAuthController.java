@@ -1,5 +1,7 @@
 package com.pieceofcake.auth_service.member.presentation;
 
+import com.pieceofcake.auth_service.common.entity.BaseResponseEntity;
+import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
 import com.pieceofcake.auth_service.member.application.MemberService;
 import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
 import com.pieceofcake.auth_service.member.dto.in.SignUpRequestDto;
@@ -22,19 +24,19 @@ public class MemberAuthController {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public Void signUp(
+    public BaseResponseEntity<Void> signUp(
             @Valid @RequestBody SignUpRequestVo signUpRequestVo
     ) {
         memberService.signUp(SignUpRequestDto.from(signUpRequestVo));
-        return null;
+        return new BaseResponseEntity<>(BaseResponseStatus.SIGN_UP_SUCCESS);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseVo> login(
+    public BaseResponseEntity<LoginResponseVo> login(
             @Valid @RequestBody LoginRequestVo loginRequestVo
     ) {
-        return ResponseEntity.ok(
-            memberService.login(LoginRequestDto.from(loginRequestVo)).toVo()
+        return new BaseResponseEntity<LoginResponseVo> (
+                memberService.login(LoginRequestDto.from(loginRequestVo)).toVo()
         );
     }
 
