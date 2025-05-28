@@ -7,4 +7,5 @@ import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
 public interface MemberService {
     void signUp(SignUpRequestDto signUpRequestDto);
     LoginResponseDto login(LoginRequestDto loginRequestDto);
+    void logout(String memberUuid);
 }

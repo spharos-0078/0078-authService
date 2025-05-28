@@ -2,6 +2,7 @@ package com.pieceofcake.auth_service.member.application;
 
 import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
 import com.pieceofcake.auth_service.common.exception.BaseException;
+import com.pieceofcake.auth_service.common.jwt.JwtProvider;
 import com.pieceofcake.auth_service.common.util.JwtUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
 import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
@@ -23,6 +24,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
+    private final JwtProvider jwtProvider;
     private final JwtUtil jwtUtil;
 
     @Transactional
@@ -66,5 +68,11 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+    @Transactional
+    @Override
+    public void logout(String memberUuid) {
+        redisUtil.delete("Access:" + memberUuid);
+        log.info("로그아웃 성공: {}", memberUuid);
+    }
 
 }

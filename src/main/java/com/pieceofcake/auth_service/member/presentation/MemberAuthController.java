@@ -11,10 +11,7 @@ import com.pieceofcake.auth_service.member.vo.out.LoginResponseVo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -38,6 +35,15 @@ public class MemberAuthController {
         return new BaseResponseEntity<LoginResponseVo> (
                 memberService.login(LoginRequestDto.from(loginRequestVo)).toVo()
         );
+    }
+
+    @PostMapping("/logout")
+    public BaseResponseEntity<Void> logout(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader(value = "X-Member-Uuid", required = false) String memberUuid
+    ) {
+        memberService.logout(memberUuid);
+        return new BaseResponseEntity<>(BaseResponseStatus.LOGOUT_SUCCESS);
     }
 
 
