@@ -5,8 +5,10 @@ import com.pieceofcake.auth_service.common.exception.BaseException;
 import com.pieceofcake.auth_service.common.jwt.JwtProvider;
 import com.pieceofcake.auth_service.common.util.JwtUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
+import com.pieceofcake.auth_service.member.dto.in.CheckEmailRequestDto;
 import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
 import com.pieceofcake.auth_service.member.dto.in.SignUpRequestDto;
+import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
 import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
 import com.pieceofcake.auth_service.member.entity.Member;
 import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
@@ -75,4 +77,11 @@ public class MemberServiceImpl implements MemberService{
         log.info("로그아웃 성공: {}", memberUuid);
     }
 
+    @Override
+    public CheckEmailResponseDto checkEmail(CheckEmailRequestDto checkEmailRequestDto) {
+        boolean available = !memberRepository.existsByEmail(checkEmailRequestDto.getEmail());
+        log.info("이메일: {}, 사용 가능 여부: {}", checkEmailRequestDto.getEmail(), available);
+
+        return CheckEmailResponseDto.of(available);
+    }
 }

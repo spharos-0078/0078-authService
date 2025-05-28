@@ -20,6 +20,7 @@ public enum BaseResponseStatus {
     LOGOUT_SUCCESS(HttpStatus.OK, true, 205, "로그아웃 되었습니다."),
     SUCCESS_MATCH_PASSWORD(HttpStatus.OK, true, 206, "비밀번호가 확인되었습니다."),
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
+    CHECK_EMAIL_SUCCESS(HttpStatus.OK, true, 208, "이메일 중복 확인에 성공하였습니다."),
 
     /**
      * 400 : security 에러
@@ -49,8 +50,12 @@ public enum BaseResponseStatus {
     SMS_VERIFICATION_FAILED(HttpStatus.UNAUTHORIZED, false, 2106, "인증 코드가 일치하지 않습니다."),
     DISABLED_MEMBER(HttpStatus.FORBIDDEN, false, 2108, "비활성화된 계정입니다. 관리자에게 문의해주세요."),
     BLACKED_MEMBER(HttpStatus.FORBIDDEN, false, 2109, "블랙리스트에 등록된 계정입니다. 관리자에게 문의해주세요."),
-    DELETED_MEMBER(HttpStatus.FORBIDDEN, false, 2110, "삭제된 계정입니다. 관리자에게 문의해주세요.");
+    DELETED_MEMBER(HttpStatus.FORBIDDEN, false, 2110, "삭제된 계정입니다. 관리자에게 문의해주세요."),
 
+
+
+
+    INVALID_USER_INPUT(HttpStatus.BAD_REQUEST, false, 3000, "유효하지 않은 사용자 입력입니다.");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;
