@@ -52,5 +52,6 @@ eureka:
 JWT:
   secret-key: e70a7f3ba3456c05be96f2b804fea1b41688111d051a43e28e9c25d2e430b4b8
   token:
-    access-expire-time: 3600
+    access-expire-time: 1800000000
+    refresh-expire-time: 1209600000
 
