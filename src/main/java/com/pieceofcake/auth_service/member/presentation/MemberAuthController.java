@@ -12,9 +12,11 @@ import com.pieceofcake.auth_service.member.vo.out.FindEmailResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.LoginResponseVo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
@@ -68,16 +70,8 @@ public class MemberAuthController {
 
     @GetMapping("/find-email")
     public BaseResponseEntity<FindEmailResponseVo> findEmail(
-            @RequestParam("name") String name,
-            @RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("birthdate") String birthdate
+            @ModelAttribute FindEmailRequestVo findEmailRequestVo
     ) {
-        FindEmailRequestVo findEmailRequestVo = FindEmailRequestVo.builder()
-                .name(name)
-                .phoneNumber(phoneNumber)
-                .birthdate(birthdate)
-                .build();
-
         return new BaseResponseEntity<>(
                 memberService.findEmail(FindEmailRequestDto.from(findEmailRequestVo)).toVo()
         );
@@ -99,4 +93,6 @@ public class MemberAuthController {
         memberService.changePassword(ChangePasswordRequestDto.of(memberUuid, changePasswordRequestVo));
         return new BaseResponseEntity<>(BaseResponseStatus.PASSWORD_CHANGE_SUCCESS);
     }
+
+
 }
