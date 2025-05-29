@@ -2,10 +2,14 @@ package com.pieceofcake.auth_service.member.application;
 
 import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
 import com.pieceofcake.auth_service.common.exception.BaseException;
+import com.pieceofcake.auth_service.common.jwt.JwtProvider;
 import com.pieceofcake.auth_service.common.util.JwtUtil;
+import com.pieceofcake.auth_service.common.util.PasswordGeneratorUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
-import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
-import com.pieceofcake.auth_service.member.dto.in.SignUpRequestDto;
+import com.pieceofcake.auth_service.member.dto.in.*;
+import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
+import com.pieceofcake.auth_service.member.dto.out.CheckNicknameResponseDto;
+import com.pieceofcake.auth_service.member.dto.out.FindEmailResponseDto;
 import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
 import com.pieceofcake.auth_service.member.entity.Member;
 import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
@@ -23,7 +27,9 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil;
+    private final JwtProvider jwtProvider;
     private final JwtUtil jwtUtil;
+    private final PhoneService phoneService;
 
     @Transactional
     @Override
@@ -66,5 +72,83 @@ public class MemberServiceImpl implements MemberService{
 
     }
 
+    @Transactional
+    @Override
+    public void logout(String memberUuid) {
+        redisUtil.delete("Access:" + memberUuid);
+        log.info("로그아웃 성공: {}", memberUuid);
+    }
 
+    @Override
+    public CheckEmailResponseDto checkEmail(CheckEmailRequestDto checkEmailRequestDto) {
+        boolean available = !memberRepository.existsByEmail(checkEmailRequestDto.getEmail());
+        log.info("이메일: {}, 사용 가능 여부: {}", checkEmailRequestDto.getEmail(), available);
+
+        return CheckEmailResponseDto.of(available);
+    }
+
+    @Override
+    public CheckNicknameResponseDto checkNickname(CheckNicknameRequestDto checkNicknameRequestDto) {
+        boolean available = !memberRepository.existsByNickname(checkNicknameRequestDto.getNickname());
+
+        return CheckNicknameResponseDto.of(available);
+    }
+
+    @Override
+    public FindEmailResponseDto findEmail(FindEmailRequestDto findEmailRequestDto) {
+
+        if (!"true".equals(redisUtil.get("sms:FIND_EMAIL:Verified:" + findEmailRequestDto.getPhoneNumber()))) {
+            log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@: {}", findEmailRequestDto.getPhoneNumber());
+            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
+        }
+
+        Member member = memberRepository.findByPhoneNumberAndName(
+                findEmailRequestDto.getPhoneNumber(),
+                findEmailRequestDto.getName()
+        ).orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        return FindEmailResponseDto.from(member);
+    }
+
+    @Transactional
+    @Override
+    public void resetPassword(ResetPasswordRequestDto resetPasswordRequestDto) {
+        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@: {}", resetPasswordRequestDto);
+        if (!"true".equals(redisUtil.get("sms:RESET_PASSWORD:Verified:" + resetPasswordRequestDto.getPhoneNumber()))) {
+            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
+        }
+        if (!memberRepository.existsByEmail(resetPasswordRequestDto.getEmail())) {
+            throw new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND);
+        }
+        if (!memberRepository.existsByPhoneNumber(resetPasswordRequestDto.getPhoneNumber())) {
+            throw new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND);
+        }
+
+        // 비밀번호 생성
+        String tempPassword = PasswordGeneratorUtil.generate();
+        String encodedPassword = passwordEncoder.encode(tempPassword);
+        // 비밀번호 저장
+        memberRepository.updatePasswordByEmailAndPhoneNumber(
+                resetPasswordRequestDto.getEmail(),
+                resetPasswordRequestDto.getPhoneNumber(),
+                encodedPassword
+        );
+        //비밀번호 SMS 전송
+        phoneService.sendNewPassword(resetPasswordRequestDto.getPhoneNumber(), tempPassword);
+    }
+
+    @Transactional
+    @Override
+    public void changePassword(ChangePasswordRequestDto changePasswordRequestDto) {
+
+        Member member = memberRepository.findByMemberUuid(changePasswordRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(changePasswordRequestDto.getOldPassword(), member.getPassword())) {
+            throw new BaseException(BaseResponseStatus.INVALID_CURRENT_PASSWORD);
+        }
+
+        String newEncodedPassword = passwordEncoder.encode(changePasswordRequestDto.getNewPassword());
+        memberRepository.updatePasswordByMemberUuid(member.getMemberUuid(), newEncodedPassword);
+    }
 }

@@ -43,7 +43,7 @@ public class Member extends BaseEntity implements UserDetails {
     private String phoneNumber;
 
     @Column(name = "birth_date", nullable = false)
-    private LocalDateTime birthDate;
+    private LocalDateTime birthdate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
@@ -65,7 +65,7 @@ public class Member extends BaseEntity implements UserDetails {
             String password,
             String name,
             String phoneNumber,
-            LocalDateTime birthDate,
+            LocalDateTime birthdate,
             MemberGender gender,
             MemberStatus status,
             String nickname
@@ -76,7 +76,7 @@ public class Member extends BaseEntity implements UserDetails {
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthDate = birthDate;
+        this.birthdate = birthdate;
         this.gender = gender;
         this.status = status;
         this.nickname = nickname;

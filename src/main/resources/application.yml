@@ -50,7 +50,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 JWT:
-  secret-key: e70a7f3ba3456c05be96f2b804fea1b41688111d051a43e28e9c25d2e430b4b8
+  secret-key: ${JWT_SECRET_KEY}
   token:
     access-expire-time: 1800000000
     refresh-expire-time: 1209600000
