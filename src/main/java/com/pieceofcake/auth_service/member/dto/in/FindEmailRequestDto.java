@@ -6,27 +6,31 @@ import com.pieceofcake.auth_service.member.vo.out.FindEmailResponseVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @NoArgsConstructor
 public class FindEmailRequestDto {
 
     private String name;
     private String phoneNumber;
-    private String birthDate;
+    private String birthdate;
 
     @Builder
-    public FindEmailRequestDto(String name, String phoneNumber, String birthDate) {
+    public FindEmailRequestDto(String name, String phoneNumber, String birthdate) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthDate = birthDate;
+        this.birthdate = birthdate;
     }
 
     public static FindEmailRequestDto from(FindEmailRequestVo findEmailRequestVo) {
+        log.info("### Converting FindEmailRequestVo to FindEmailRequestDto: {} {} {}", findEmailRequestVo.getName(),
+                findEmailRequestVo.getPhoneNumber(), findEmailRequestVo.getBirthdate());
         return FindEmailRequestDto.builder()
                 .name(findEmailRequestVo.getName())
                 .phoneNumber(findEmailRequestVo.getPhoneNumber())
-                .birthDate(findEmailRequestVo.getBirthDate())
+                .birthdate(findEmailRequestVo.getBirthdate())
                 .build();
     }
 

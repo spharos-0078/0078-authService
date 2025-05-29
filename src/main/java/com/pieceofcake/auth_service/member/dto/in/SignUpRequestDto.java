@@ -50,7 +50,7 @@ public class SignUpRequestDto {
                 .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
-                .birthDate(birthdate)
+                .birthdate(birthdate)
                 .gender(gender)
                 .status(MemberStatus.ENABLED)
                 .build();

@@ -18,7 +18,7 @@ public enum BaseResponseStatus {
     SIGN_UP_SUCCESS(HttpStatus.OK, true, 203, "회원가입에 성공하였습니다."),
     SIGN_IN_SUCCESS(HttpStatus.OK, true, 204, "로그인에 성공하였습니다."),
     LOGOUT_SUCCESS(HttpStatus.OK, true, 205, "로그아웃 되었습니다."),
-    SUCCESS_MATCH_PASSWORD(HttpStatus.OK, true, 206, "비밀번호가 확인되었습니다."),
+    PASSWORD_RESET_SUCCESS(HttpStatus.OK, true, 207, "비밀번호가 초기화되었습니다."),
     SUCCESS_UPDATE_PASSWORD(HttpStatus.OK, true, 207, "비밀번호가 변경되었습니다."),
     CHECK_EMAIL_SUCCESS(HttpStatus.OK, true, 208, "이메일 중복 확인에 성공하였습니다."),
 

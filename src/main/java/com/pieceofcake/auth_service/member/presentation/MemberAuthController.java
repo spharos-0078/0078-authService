@@ -7,6 +7,7 @@ import com.pieceofcake.auth_service.member.dto.in.*;
 import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
 import com.pieceofcake.auth_service.member.vo.in.FindEmailRequestVo;
 import com.pieceofcake.auth_service.member.vo.in.LoginRequestVo;
+import com.pieceofcake.auth_service.member.vo.in.ResetPasswordRequestVo;
 import com.pieceofcake.auth_service.member.vo.in.SignUpRequestVo;
 import com.pieceofcake.auth_service.member.vo.out.CheckEmailResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.CheckNicknameResponseVo;
@@ -69,12 +70,19 @@ public class MemberAuthController {
     }
 
     @GetMapping("/find-email")
-    public BaseResponseEntity<FindEmailResponseVo> findEmail(
-            @RequestParam FindEmailRequestVo findEmailRequestVo
-            ) {
+    public BaseResponseEntity<FindEmailResponseVo> findEmail(FindEmailRequestVo findEmailRequestVo) {
         return new BaseResponseEntity<>(
                 memberService.findEmail(FindEmailRequestDto.from(findEmailRequestVo)).toVo()
         );
     }
+
+    @PostMapping("/reset-password")
+    public BaseResponseEntity<Void> resetPassword(
+            @RequestBody @Valid ResetPasswordRequestVo resetPasswordRequestVo
+    ) {
+        memberService.resetPassword(ResetPasswordRequestDto.from(resetPasswordRequestVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.PASSWORD_RESET_SUCCESS);
+    }
+
 
 }

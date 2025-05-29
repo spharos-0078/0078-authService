@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SendPhoneCodeUtil {
+public class SendSmsUtil {
 
     @Value("${spring.coolsms.sender}")
     private String senderNumber;
@@ -29,15 +29,24 @@ public class SendPhoneCodeUtil {
         this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
     }
 
-    public SingleMessageSentResponse sendSms(String to, String verificationCode){
+    public SingleMessageSentResponse sendPhoneCode(String to, String verificationCode){
         Message message = new Message();
         message.setFrom(senderNumber);
         message.setTo(to);
-        message.setText("[piece of cake] 본인 확인 인증번호는 "+verificationCode+"입니다.");
+        message.setText("[piece of cake] 본인 확인 인증번호는 " + verificationCode + "입니다.");
 
-        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
-        System.out.println(response);
-        return response;
+        return this.messageService.sendOne(new SingleMessageSendingRequest(message));
     }
+
+    public SingleMessageSentResponse sendNewPassword(String to, String encodedPassword){
+        Message message = new Message();
+        message.setFrom(senderNumber);
+        message.setTo(to);
+        message.setText("[piece of cake] 새 비밀번호는 " + encodedPassword + "입니다.");
+
+        return this.messageService.sendOne(new SingleMessageSendingRequest(message));
+    }
+
+
 
 }

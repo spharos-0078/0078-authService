@@ -13,4 +13,5 @@ public interface MemberService {
     CheckEmailResponseDto checkEmail(CheckEmailRequestDto checkEmailRequestDto);
     CheckNicknameResponseDto checkNickname(CheckNicknameRequestDto checkNicknameRequestDto);
     FindEmailResponseDto findEmail(FindEmailRequestDto findEmailRequestDto);
+    void resetPassword(ResetPasswordRequestDto resetPasswordRequestDto);
 }
