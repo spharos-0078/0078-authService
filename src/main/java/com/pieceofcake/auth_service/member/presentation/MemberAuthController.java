@@ -3,15 +3,14 @@ package com.pieceofcake.auth_service.member.presentation;
 import com.pieceofcake.auth_service.common.entity.BaseResponseEntity;
 import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
 import com.pieceofcake.auth_service.member.application.MemberService;
-import com.pieceofcake.auth_service.member.dto.in.CheckEmailRequestDto;
-import com.pieceofcake.auth_service.member.dto.in.CheckNicknameRequestDto;
-import com.pieceofcake.auth_service.member.dto.in.LoginRequestDto;
-import com.pieceofcake.auth_service.member.dto.in.SignUpRequestDto;
+import com.pieceofcake.auth_service.member.dto.in.*;
 import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
+import com.pieceofcake.auth_service.member.vo.in.FindEmailRequestVo;
 import com.pieceofcake.auth_service.member.vo.in.LoginRequestVo;
 import com.pieceofcake.auth_service.member.vo.in.SignUpRequestVo;
 import com.pieceofcake.auth_service.member.vo.out.CheckEmailResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.CheckNicknameResponseVo;
+import com.pieceofcake.auth_service.member.vo.out.FindEmailResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.LoginResponseVo;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +68,13 @@ public class MemberAuthController {
         );
     }
 
-
+    @GetMapping("/find-email")
+    public BaseResponseEntity<FindEmailResponseVo> findEmail(
+            @RequestParam FindEmailRequestVo findEmailRequestVo
+            ) {
+        return new BaseResponseEntity<>(
+                memberService.findEmail(FindEmailRequestDto.from(findEmailRequestVo)).toVo()
+        );
+    }
 
 }

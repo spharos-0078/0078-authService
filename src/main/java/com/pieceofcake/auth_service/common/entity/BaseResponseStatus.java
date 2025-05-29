@@ -51,7 +51,7 @@ public enum BaseResponseStatus {
     DISABLED_MEMBER(HttpStatus.FORBIDDEN, false, 2108, "비활성화된 계정입니다. 관리자에게 문의해주세요."),
     BLACKED_MEMBER(HttpStatus.FORBIDDEN, false, 2109, "블랙리스트에 등록된 계정입니다. 관리자에게 문의해주세요."),
     DELETED_MEMBER(HttpStatus.FORBIDDEN, false, 2110, "삭제된 계정입니다. 관리자에게 문의해주세요."),
-
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2111, "존재하지 않는 회원 내역입니다."),
 
 
 
