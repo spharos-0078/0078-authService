@@ -20,6 +20,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByNickname(String nickname);
 
+    Optional<Member> findByMemberUuid(String memberUuid);
+
     Optional<Member> findByEmail(String email);
 
     Optional<Member> findByPhoneNumberAndName(String phoneNumber, String name);
@@ -27,9 +29,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     @Transactional  // 이 어노테이션 꼭 필요함!
     @Query("UPDATE Member u SET u.password = :password WHERE u.email = :email AND u.phoneNumber = :phoneNumber")
-    int updatePassword(
+    void updatePasswordByEmailAndPhoneNumber(
             @Param("email") String email,
             @Param("phoneNumber") String phoneNumber,
             @Param("password") String password
     );
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Member u SET u.password = :password WHERE u.memberUuid = :memberUuid")
+    void updatePasswordByMemberUuid(
+            @Param("memberUuid") String memberUuid,
+            @Param("password") String password
+    );
+
+
 }

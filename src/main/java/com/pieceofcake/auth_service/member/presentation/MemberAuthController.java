@@ -5,10 +5,7 @@ import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
 import com.pieceofcake.auth_service.member.application.MemberService;
 import com.pieceofcake.auth_service.member.dto.in.*;
 import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
-import com.pieceofcake.auth_service.member.vo.in.FindEmailRequestVo;
-import com.pieceofcake.auth_service.member.vo.in.LoginRequestVo;
-import com.pieceofcake.auth_service.member.vo.in.ResetPasswordRequestVo;
-import com.pieceofcake.auth_service.member.vo.in.SignUpRequestVo;
+import com.pieceofcake.auth_service.member.vo.in.*;
 import com.pieceofcake.auth_service.member.vo.out.CheckEmailResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.CheckNicknameResponseVo;
 import com.pieceofcake.auth_service.member.vo.out.FindEmailResponseVo;
@@ -45,7 +42,7 @@ public class MemberAuthController {
     @PostMapping("/logout")
     public BaseResponseEntity<Void> logout(
             @RequestHeader("Authorization") String authorization,
-            @RequestHeader(value = "X-Member-Uuid", required = false) String memberUuid
+            @RequestHeader(value = "X-Member-Uuid") String memberUuid
     ) {
         memberService.logout(memberUuid);
         return new BaseResponseEntity<>(BaseResponseStatus.LOGOUT_SUCCESS);
@@ -84,5 +81,12 @@ public class MemberAuthController {
         return new BaseResponseEntity<>(BaseResponseStatus.PASSWORD_RESET_SUCCESS);
     }
 
-
+    @PostMapping("/change-password")
+    public BaseResponseEntity<Void> changePassword(
+            @RequestHeader(value = "X-Member-Uuid") String memberUuid,
+            @RequestBody @Valid ChangePasswordRequestVo changePasswordRequestVo
+    ) {
+        memberService.changePassword(ChangePasswordRequestDto.of(memberUuid, changePasswordRequestVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.PASSWORD_CHANGE_SUCCESS);
+    }
 }

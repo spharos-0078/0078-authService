@@ -128,7 +128,7 @@ public class MemberServiceImpl implements MemberService{
         String tempPassword = PasswordGeneratorUtil.generate();
         String encodedPassword = passwordEncoder.encode(tempPassword);
         // 비밀번호 저장
-        memberRepository.updatePassword(
+        memberRepository.updatePasswordByEmailAndPhoneNumber(
                 resetPasswordRequestDto.getEmail(),
                 resetPasswordRequestDto.getPhoneNumber(),
                 encodedPassword
@@ -137,4 +137,18 @@ public class MemberServiceImpl implements MemberService{
         phoneService.sendNewPassword(resetPasswordRequestDto.getPhoneNumber(), tempPassword);
     }
 
+    @Transactional
+    @Override
+    public void changePassword(ChangePasswordRequestDto changePasswordRequestDto) {
+
+        Member member = memberRepository.findByMemberUuid(changePasswordRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(changePasswordRequestDto.getOldPassword(), member.getPassword())) {
+            throw new BaseException(BaseResponseStatus.INVALID_CURRENT_PASSWORD);
+        }
+
+        String newEncodedPassword = passwordEncoder.encode(changePasswordRequestDto.getNewPassword());
+        memberRepository.updatePasswordByMemberUuid(member.getMemberUuid(), newEncodedPassword);
+    }
 }
