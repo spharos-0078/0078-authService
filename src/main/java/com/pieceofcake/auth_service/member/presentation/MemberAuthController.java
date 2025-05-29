@@ -67,7 +67,17 @@ public class MemberAuthController {
     }
 
     @GetMapping("/find-email")
-    public BaseResponseEntity<FindEmailResponseVo> findEmail(FindEmailRequestVo findEmailRequestVo) {
+    public BaseResponseEntity<FindEmailResponseVo> findEmail(
+            @RequestParam("name") String name,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("birthdate") String birthdate
+    ) {
+        FindEmailRequestVo findEmailRequestVo = FindEmailRequestVo.builder()
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .birthdate(birthdate)
+                .build();
+
         return new BaseResponseEntity<>(
                 memberService.findEmail(FindEmailRequestDto.from(findEmailRequestVo)).toVo()
         );
