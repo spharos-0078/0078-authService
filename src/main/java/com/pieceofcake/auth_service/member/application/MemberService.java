@@ -15,4 +15,5 @@ public interface MemberService {
     FindEmailResponseDto findEmail(FindEmailRequestDto findEmailRequestDto);
     void resetPassword(ResetPasswordRequestDto resetPasswordRequestDto);
     void changePassword(ChangePasswordRequestDto changePasswordRequestDto);
+    void updateMember(UpdateMemberRequestDto updateMemberRequestDto);
 }

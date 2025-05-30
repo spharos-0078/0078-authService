@@ -98,7 +98,6 @@ public class MemberServiceImpl implements MemberService{
     public FindEmailResponseDto findEmail(FindEmailRequestDto findEmailRequestDto) {
 
         if (!"true".equals(redisUtil.get("sms:FIND_EMAIL:Verified:" + findEmailRequestDto.getPhoneNumber()))) {
-            log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@: {}", findEmailRequestDto.getPhoneNumber());
             throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
         }
 
@@ -113,7 +112,6 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     @Override
     public void resetPassword(ResetPasswordRequestDto resetPasswordRequestDto) {
-        log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@: {}", resetPasswordRequestDto);
         if (!"true".equals(redisUtil.get("sms:RESET_PASSWORD:Verified:" + resetPasswordRequestDto.getPhoneNumber()))) {
             throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
         }
@@ -150,5 +148,19 @@ public class MemberServiceImpl implements MemberService{
 
         String newEncodedPassword = passwordEncoder.encode(changePasswordRequestDto.getNewPassword());
         memberRepository.updatePasswordByMemberUuid(member.getMemberUuid(), newEncodedPassword);
+    }
+
+    @Transactional
+    @Override
+    public void updateMember(UpdateMemberRequestDto updateMemberRequestDto) {
+
+        if (memberRepository.existsByNickname(updateMemberRequestDto.getNickname())) {
+            throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
+        }
+
+        Member member = memberRepository.findByMemberUuid(updateMemberRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        memberRepository.save(updateMemberRequestDto.updateEntity(member));
     }
 }
