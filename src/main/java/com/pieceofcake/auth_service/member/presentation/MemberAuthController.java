@@ -94,5 +94,14 @@ public class MemberAuthController {
         return new BaseResponseEntity<>(BaseResponseStatus.PASSWORD_CHANGE_SUCCESS);
     }
 
+    @PutMapping("/member")
+    public BaseResponseEntity<Void> updateMember(
+            @RequestHeader(value = "X-Member-Uuid") String memberUuid,
+            @RequestBody @Valid UpdateMemberRequestVo updateMemberRequestVo
+    ) {
+        memberService.updateMember(UpdateMemberRequestDto.of(memberUuid, updateMemberRequestVo));
+        return new BaseResponseEntity<>(BaseResponseStatus.MEMBER_UPDATE_SUCCESS);
+    }
+
 
 }
