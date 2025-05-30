@@ -3,6 +3,7 @@ package com.pieceofcake.auth_service.member.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pieceofcake.auth_service.common.entity.BaseEntity;
 import com.pieceofcake.auth_service.member.entity.enums.MemberGender;
+import com.pieceofcake.auth_service.member.entity.enums.MemberRole;
 import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -56,6 +57,12 @@ public class Member extends BaseEntity implements UserDetails {
     @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
+    @Column(name = "role", nullable = false)
+    private MemberRole role = MemberRole.ROLE_USER; // 기본값은 ROLE_USER로 설정
+
 
     @Builder
     public Member(
@@ -68,7 +75,9 @@ public class Member extends BaseEntity implements UserDetails {
             LocalDateTime birthdate,
             MemberGender gender,
             MemberStatus status,
-            String nickname
+            String nickname,
+            String profileImageUrl,
+            MemberRole role
     ) {
         this.id = id;
         this.memberUuid = memberUuid;
@@ -80,6 +89,8 @@ public class Member extends BaseEntity implements UserDetails {
         this.gender = gender;
         this.status = status;
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+        this.role = role;
     }
 
     @Override
