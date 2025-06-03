@@ -1,21 +1,17 @@
 Server:
   port: 8081
+  forward-headers-strategy: framework
 
 spring:
   application:
     name: auth-service
+  profiles:
+    active: local
 
-#  data:
+  #  data:
 #    mongodb:
 #      uri: mongodb+srv://...
 #      auto-index-creation: true
-
-  DataSource:
-    url: jdbc:mysql://localhost:3306/piece_of_cake_local
-
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -47,11 +43,18 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${EC2_HOST}:8761/eureka/
 
 JWT:
   secret-key: ${JWT_SECRET_KEY}
   token:
     access-expire-time: 1800000000
     refresh-expire-time: 1209600000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
 
