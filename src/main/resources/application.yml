@@ -6,7 +6,7 @@ spring:
   application:
     name: auth-service
   profiles:
-    active: local
+    active: dev
 
   #  data:
 #    mongodb:
@@ -20,6 +20,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
   redis:
     host: localhost
@@ -36,9 +37,6 @@ spring:
     import: optional:file:.env[.properties]
 
 eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true

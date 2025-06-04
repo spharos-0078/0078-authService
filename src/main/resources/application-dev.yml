@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:dotenv:.env
   datasource:
     url: jdbc:mysql://${EC2_HOST}:3306/piece_of_cake
     driver-class-name: com.mysql.cj.jdbc.Driver
