@@ -37,8 +37,6 @@ spring:
     import: optional:file:.env[.properties]
 
 eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     prefer-ip-address: true
   client:
     register-with-eureka: true
