@@ -40,7 +40,12 @@ jobs:
           echo "EC2_HOST=${{ secrets.EC2_HOST }}" >> .env
           echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> .env
           echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> .env
-
+          
+          echo "COOLSMS_API_KEY=${{ secrets.COOLSMS_API_KEY }}" > .env
+          echo "COOLSMS_API_SECRET=${{ secrets.COOLSMS_API_SECRET }}" > .env
+          echo "COOLSMS_SENDER=${{ secrets.COOLSMS_SENDER }}" > .env
+          
+          echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" > .env
 
       - name: Build and Push Docker Image to Docker Hub
         uses: docker/build-push-action@v5
