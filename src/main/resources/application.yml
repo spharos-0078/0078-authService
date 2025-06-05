@@ -37,6 +37,8 @@ spring:
     import: optional:file:.env[.properties]
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     register-with-eureka: true
     fetch-registry: true
