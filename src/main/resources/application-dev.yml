@@ -9,9 +9,13 @@ spring:
 
   data:
     redis:
-      host: redis
+      host: ${EC2_HOST}
       port: 6379
       password: ${REDIS_PASSWORD}
+
+    mongodb:
+      uri: mongodb://${EC2_MONGOID}:${EC2_MONGOPW}@${EC2_HOST}:27017/auth-service
+      auto-index-creation: true
 
 eureka:
   client:

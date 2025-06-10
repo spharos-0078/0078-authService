@@ -11,6 +11,9 @@ spring:
       port: 6379
       username: redis123
       password: 1234
+    mongodb:
+      uri: mongodb://admin:admin123@127.0.0.1:27020/auth-service?authSource=admin
+      auto-index-creation: true
 
 eureka:
   client:
