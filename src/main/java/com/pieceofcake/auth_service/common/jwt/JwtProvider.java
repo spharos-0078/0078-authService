@@ -71,7 +71,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .claim("token_type", "access")
-                .claim("uuid", memberUuid)
+                .claim("memberUuid", memberUuid)
                 .subject(authentication.getName())
                 .issuedAt(now)
                 .expiration(expiration)
@@ -89,7 +89,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .claim("token_type", "refresh")
-                .claim("uuid", memberUuid)
+                .claim("memberUuid", memberUuid)
                 .subject(authentication.getName())
                 .issuedAt(now)
                 .expiration(expiration)

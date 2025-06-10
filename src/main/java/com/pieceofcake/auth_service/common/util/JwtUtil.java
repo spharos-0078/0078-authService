@@ -17,10 +17,10 @@ public class JwtUtil {
     private final RedisUtil redisUtil;
     private final JwtProvider jwtProvider;
 
-    public LoginResponseDto createLoginToken(String userUuid) {
+    public LoginResponseDto createLoginToken(String memberUuid) {
         try {
             final Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userUuid,
+                    memberUuid,
                     null,
                     List.of()
             );
