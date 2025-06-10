@@ -90,7 +90,7 @@ public class Member extends BaseEntity implements UserDetails {
         this.status = status;
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
-        this.role = role;
+        this.role = (role == null) ? MemberRole.ROLE_USER : role;
     }
 
     @Override
