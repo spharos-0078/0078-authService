@@ -22,12 +22,6 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  redis:
-    host: localhost
-    port: 6379
-    username: redis123
-    password: 1234
-
   coolsms:
     api-key: ${COOLSMS_API_KEY}
     api-secret: ${COOLSMS_API_SECRET}

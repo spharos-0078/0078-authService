@@ -46,6 +46,7 @@ jobs:
           echo "COOLSMS_SENDER=${{ secrets.COOLSMS_SENDER }}" >> .env
           
           echo "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}" >> .env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
 
       - name: Build and Push Docker Image to Docker Hub
         uses: docker/build-push-action@v5
