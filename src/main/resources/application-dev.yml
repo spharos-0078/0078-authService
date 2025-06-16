@@ -14,7 +14,7 @@ spring:
       password: ${REDIS_PASSWORD}
 
     mongodb:
-      uri: mongodb://${EC2_MONGOID}:${EC2_MONGOPW}@${EC2_HOST}:27017/auth-service
+      uri: mongodb+srv://${EC2_MONGOID}:${EC2_MONGOPW}@spharos.uxnx7ao.mongodb.net/piece_of_cake?retryWrites=true&w=majority
       auto-index-creation: true
 
 eureka:
