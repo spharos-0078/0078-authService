@@ -44,9 +44,9 @@ public class MemberServiceImpl implements MemberService{
         if (memberRepository.existsByNickname(signUpRequestDto.getNickname())) {
             throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
         }
-        if (!"true".equals(redisUtil.get("sms:SIGN_UP:Verified:" + signUpRequestDto.getPhoneNumber()))) {
-            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
-        }
+//        if (!"true".equals(redisUtil.get("sms:SIGN_UP:Verified:" + signUpRequestDto.getPhoneNumber()))) {
+//            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
+//        }
 
         memberRepository.save(signUpRequestDto.toEntity(passwordEncoder));
     }
