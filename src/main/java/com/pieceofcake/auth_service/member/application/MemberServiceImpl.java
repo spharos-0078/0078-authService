@@ -7,10 +7,7 @@ import com.pieceofcake.auth_service.common.util.JwtUtil;
 import com.pieceofcake.auth_service.common.util.PasswordGeneratorUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
 import com.pieceofcake.auth_service.member.dto.in.*;
-import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.CheckNicknameResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.FindEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
+import com.pieceofcake.auth_service.member.dto.out.*;
 import com.pieceofcake.auth_service.member.entity.Member;
 import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
 import com.pieceofcake.auth_service.member.infrastructure.MemberRepository;
@@ -162,5 +159,13 @@ public class MemberServiceImpl implements MemberService{
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
 
         memberRepository.save(updateMemberRequestDto.updateEntity(member));
+    }
+
+    @Override
+    public ReadMemberResponseDto readMember(ReadMemberRequestDto readMemberRequestDto) {
+        Member member = memberRepository.findByMemberUuid(readMemberRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        return ReadMemberResponseDto.from(member);
     }
 }
