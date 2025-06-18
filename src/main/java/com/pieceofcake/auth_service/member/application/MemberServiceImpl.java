@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         final Member member = memberRepository.findByEmail(loginRequestDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_EMAIL));
 
         // 비밀번호 검증. 차후 배포 단계에서 에러 메시지 자세한 내역은 숨길 것.
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
