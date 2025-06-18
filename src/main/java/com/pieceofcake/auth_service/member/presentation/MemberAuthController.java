@@ -6,10 +6,7 @@ import com.pieceofcake.auth_service.member.application.MemberService;
 import com.pieceofcake.auth_service.member.dto.in.*;
 import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
 import com.pieceofcake.auth_service.member.vo.in.*;
-import com.pieceofcake.auth_service.member.vo.out.CheckEmailResponseVo;
-import com.pieceofcake.auth_service.member.vo.out.CheckNicknameResponseVo;
-import com.pieceofcake.auth_service.member.vo.out.FindEmailResponseVo;
-import com.pieceofcake.auth_service.member.vo.out.LoginResponseVo;
+import com.pieceofcake.auth_service.member.vo.out.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -103,5 +100,17 @@ public class MemberAuthController {
         return new BaseResponseEntity<>(BaseResponseStatus.MEMBER_UPDATE_SUCCESS);
     }
 
+    @GetMapping("/member")
+    public BaseResponseEntity<ReadMemberResponseVo> readMember(
+            @RequestHeader(value = "X-Member-Uuid") String memberUuid
+    ) {
+        ReadMemberRequestVo readMemberRequestVo = ReadMemberRequestVo.builder()
+                .memberUuid(memberUuid)
+                .build();
+
+        return new BaseResponseEntity<>(
+                memberService.readMember(ReadMemberRequestDto.from(readMemberRequestVo)).toVo()
+        );
+    }
 
 }

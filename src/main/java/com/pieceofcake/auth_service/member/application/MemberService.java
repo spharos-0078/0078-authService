@@ -1,10 +1,7 @@
 package com.pieceofcake.auth_service.member.application;
 
 import com.pieceofcake.auth_service.member.dto.in.*;
-import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.CheckNicknameResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.FindEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
+import com.pieceofcake.auth_service.member.dto.out.*;
 
 public interface MemberService {
     void signUp(SignUpRequestDto signUpRequestDto);
@@ -16,4 +13,5 @@ public interface MemberService {
     void resetPassword(ResetPasswordRequestDto resetPasswordRequestDto);
     void changePassword(ChangePasswordRequestDto changePasswordRequestDto);
     void updateMember(UpdateMemberRequestDto updateMemberRequestDto);
+    ReadMemberResponseDto readMember(ReadMemberRequestDto readMemberRequestDto);
 }

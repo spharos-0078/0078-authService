@@ -7,10 +7,7 @@ import com.pieceofcake.auth_service.common.util.JwtUtil;
 import com.pieceofcake.auth_service.common.util.PasswordGeneratorUtil;
 import com.pieceofcake.auth_service.common.util.RedisUtil;
 import com.pieceofcake.auth_service.member.dto.in.*;
-import com.pieceofcake.auth_service.member.dto.out.CheckEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.CheckNicknameResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.FindEmailResponseDto;
-import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
+import com.pieceofcake.auth_service.member.dto.out.*;
 import com.pieceofcake.auth_service.member.entity.Member;
 import com.pieceofcake.auth_service.member.entity.enums.MemberStatus;
 import com.pieceofcake.auth_service.member.infrastructure.MemberRepository;
@@ -55,7 +52,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
         final Member member = memberRepository.findByEmail(loginRequestDto.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_EMAIL));
 
         // 비밀번호 검증. 차후 배포 단계에서 에러 메시지 자세한 내역은 숨길 것.
         if (!passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword())) {
@@ -162,5 +159,13 @@ public class MemberServiceImpl implements MemberService{
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
 
         memberRepository.save(updateMemberRequestDto.updateEntity(member));
+    }
+
+    @Override
+    public ReadMemberResponseDto readMember(ReadMemberRequestDto readMemberRequestDto) {
+        Member member = memberRepository.findByMemberUuid(readMemberRequestDto.getMemberUuid())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.MEMBER_NOT_FOUND));
+
+        return ReadMemberResponseDto.from(member);
     }
 }

@@ -34,7 +34,7 @@ public enum BaseResponseStatus {
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
-
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 407, "잘못된 요청입니다. 요청 형식을 확인해주세요."),
     /**
      * 2000: users service error
      */
@@ -54,6 +54,9 @@ public enum BaseResponseStatus {
     DELETED_MEMBER(HttpStatus.FORBIDDEN, false, 2110, "삭제된 계정입니다. 관리자에게 문의해주세요."),
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2111, "존재하지 않는 회원 내역입니다."),
     INVALID_CURRENT_PASSWORD(HttpStatus.BAD_REQUEST, false, 2112, "현재 비밀번호가 일치하지 않습니다."),
+    NO_EXIST_EMAIL(HttpStatus.NOT_FOUND, false, 2113, "존재하지 않는 이메일입니다."),
+    SMS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 2114, "SMS 전송 중 오류가 발생했습니다."),
+    SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2115, "SMS 전송에 실패했습니다."),
 
 
 
