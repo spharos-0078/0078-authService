@@ -55,6 +55,9 @@ public enum BaseResponseStatus {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, false, 2111, "존재하지 않는 회원 내역입니다."),
     INVALID_CURRENT_PASSWORD(HttpStatus.BAD_REQUEST, false, 2112, "현재 비밀번호가 일치하지 않습니다."),
     NO_EXIST_EMAIL(HttpStatus.NOT_FOUND, false, 2113, "존재하지 않는 이메일입니다."),
+    SMS_SEND_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 2114, "SMS 전송 중 오류가 발생했습니다."),
+    SMS_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2115, "SMS 전송에 실패했습니다."),
+
 
 
     INVALID_USER_INPUT(HttpStatus.BAD_REQUEST, false, 3000, "유효하지 않은 사용자 입력입니다.");
