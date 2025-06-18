@@ -34,7 +34,7 @@ public enum BaseResponseStatus {
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
-
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 407, "잘못된 요청입니다. 요청 형식을 확인해주세요."),
     /**
      * 2000: users service error
      */

@@ -25,7 +25,7 @@ public class SignUpRequestVo {
     private String name;
 
     @NotBlank
-    @Size(min = 2, max = 10, message = "닉네임은 2자 이상 10자 이하로 입력해주세요.")
+    @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자여야 합니다.")
     private String nickname;
 
     @NotBlank
@@ -36,6 +36,7 @@ public class SignUpRequestVo {
     private String phoneNumber;
 
     @NotNull(message = "생년월일을 입력해주세요.")
+    @Past(message = "생년월일은 과거 날짜여야 합니다.")
     private LocalDateTime birthdate;
 
     @NotNull(message = "성별을 선택해주세요.")
