@@ -40,6 +40,7 @@ public enum BaseResponseStatus {
      */
     // token
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, false, 2001, "토큰이 유효하지 않습니다."),
+    JWT_TOKEN_GENERATION_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 2002, "JWT 토큰 생성에 실패했습니다."),
 
     // Users
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, false, 2101, "이미 가입된 이메일입니다."),

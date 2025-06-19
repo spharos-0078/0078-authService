@@ -6,7 +6,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -69,9 +68,16 @@ public class JwtProvider {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + accessTokenExpiry * 1000);
 
+        // 권한 정보 추출
+        String role = authentication.getAuthorities().stream()
+                .map(authority -> authority.getAuthority())
+                .findFirst()
+                .orElse("ROLE_USER");  // 기본값 설정
+
         return Jwts.builder()
                 .claim("token_type", "access")
                 .claim("memberUuid", memberUuid)
+                .claim("role", role)  // role 정보 추가
                 .subject(authentication.getName())
                 .issuedAt(now)
                 .expiration(expiration)
@@ -87,9 +93,16 @@ public class JwtProvider {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + refreshTokenExpiry * 1000);
 
+        // 권한 정보 추출
+        String role = authentication.getAuthorities().stream()
+                .map(authority -> authority.getAuthority())
+                .findFirst()
+                .orElse("ROLE_USER");  // 기본값 설정
+
         return Jwts.builder()
                 .claim("token_type", "refresh")
                 .claim("memberUuid", memberUuid)
+                .claim("role", role)  // role 정보 추가
                 .subject(authentication.getName())
                 .issuedAt(now)
                 .expiration(expiration)

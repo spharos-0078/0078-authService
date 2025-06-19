@@ -44,7 +44,6 @@ public class SendSmsUtil {
             // 응답 코드에 따라 예외 처리 (CoolSMS API 응답 코드 체크)
             // http://developers.solapi.com/references/message-status-codes
             if (response.getStatusCode() != null && !response.getStatusCode().equals("2000")) {
-                log.info("SMS 전송 실패: {}", response.getStatusCode());
                 throw new BaseException(BaseResponseStatus.SMS_SEND_ERROR);
             }
             return response;
@@ -65,7 +64,6 @@ public class SendSmsUtil {
             // 응답 코드에 따라 예외 처리 (CoolSMS API 응답 코드 체크)
             // http://developers.solapi.com/references/message-status-codes
             if (response.getStatusCode() != null && !response.getStatusCode().equals("2000")) {
-                log.info("SMS 전송 실패: {}", response.getStatusCode());
                 throw new BaseException(BaseResponseStatus.SMS_SEND_ERROR);
             }
             return response;
