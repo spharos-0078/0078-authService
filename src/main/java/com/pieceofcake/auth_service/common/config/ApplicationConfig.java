@@ -1,6 +1,6 @@
 package com.pieceofcake.auth_service.common.config;
 
-import com.pieceofcake.auth_service.member.infrastructure.MemberRepository;
+import com.pieceofcake.auth_service.auth.infrastructure.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final MemberRepository memberRepository;
+    private final AuthRepository authRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

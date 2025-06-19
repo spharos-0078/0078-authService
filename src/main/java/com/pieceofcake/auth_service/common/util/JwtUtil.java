@@ -1,15 +1,19 @@
 package com.pieceofcake.auth_service.common.util;
 
+import com.pieceofcake.auth_service.common.entity.BaseResponseStatus;
+import com.pieceofcake.auth_service.common.exception.BaseException;
 import com.pieceofcake.auth_service.common.jwt.JwtProvider;
-import com.pieceofcake.auth_service.member.dto.out.LoginResponseDto;
+import com.pieceofcake.auth_service.auth.dto.out.LoginResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -17,12 +21,14 @@ public class JwtUtil {
     private final RedisUtil redisUtil;
     private final JwtProvider jwtProvider;
 
-    public LoginResponseDto createLoginToken(String memberUuid) {
+    public LoginResponseDto createLoginToken(String memberUuid, String role) {
         try {
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+
             final Authentication authentication = new UsernamePasswordAuthenticationToken(
                     memberUuid,
                     null,
-                    List.of()
+                    List.of(authority)
             );
 
             final String accessToken = jwtProvider.generateAccessToken(authentication);
@@ -43,7 +49,7 @@ public class JwtUtil {
             );
             return LoginResponseDto.of(accessToken, refreshToken);
         } catch (Exception e) {
-            throw new IllegalArgumentException("로그인 토큰 생성에 실패했습니다.", e);
+            throw new BaseException(BaseResponseStatus.JWT_TOKEN_GENERATION_FAILED, e);
         }
     }
 
