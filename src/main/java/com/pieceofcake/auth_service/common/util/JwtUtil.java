@@ -49,7 +49,7 @@ public class JwtUtil {
             );
             return LoginResponseDto.of(accessToken, refreshToken);
         } catch (Exception e) {
-            throw new BaseException(BaseResponseStatus.JWT_TOKEN_GENERATION_FAILED, e);
+            throw new BaseException(BaseResponseStatus.JWT_TOKEN_GENERATION_FAILED);
         }
     }
 
