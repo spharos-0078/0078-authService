@@ -47,7 +47,7 @@ public class JwtUtil {
                     14,
                     TimeUnit.DAYS
             );
-            return LoginResponseDto.of(accessToken, refreshToken);
+            return LoginResponseDto.of(accessToken, refreshToken, memberUuid);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.JWT_TOKEN_GENERATION_FAILED);
         }
