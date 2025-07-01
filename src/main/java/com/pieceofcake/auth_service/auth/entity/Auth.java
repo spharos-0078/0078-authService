@@ -38,6 +38,7 @@ public class Auth extends BaseEntity implements UserDetails {
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private AuthRole role; // 기본값은 ROLE_USER로 설정
 
