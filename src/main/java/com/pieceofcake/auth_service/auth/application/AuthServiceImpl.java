@@ -52,9 +52,9 @@ public class AuthServiceImpl implements AuthService {
 //        if (authRepository.existsByNickname(signUpRequestDto.getNickname())) {
 //            throw new BaseException(BaseResponseStatus.DUPLICATED_NICKNAME);
 //        }
-//        if (!"true".equals(redisUtil.get("sms:SIGN_UP:Verified:" + signUpRequestDto.getPhoneNumber()))) {
-//            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
-//        }
+        if (!"true".equals(redisUtil.get("sms:SIGN_UP:Verified:" + signUpRequestDto.getPhoneNumber()))) {
+            throw new BaseException(BaseResponseStatus.SMS_VERIFICATION_NOT_COMPLETED);
+        }
         Auth auth = signUpRequestDto.toEntity(passwordEncoder);
         authRepository.save(auth);
 
